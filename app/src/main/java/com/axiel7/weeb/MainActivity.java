@@ -54,7 +54,7 @@ public class MainActivity extends AppCompatActivity {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("");
         // add a list
-        String[] themeOptions = {"Light", "Dark", "System default"};
+        String[] themeOptions = {getString(R.string.light), getString(R.string.dark), getString(R.string.sys_default)};
         int checkedItem = 2;
         if (sharedpref.loadNightModeState() == 1) {
             checkedItem = 0;
@@ -88,5 +88,4 @@ public class MainActivity extends AppCompatActivity {
         dialog.show();
     }
 }
-
 

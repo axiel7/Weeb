@@ -1,9 +1,12 @@
 <resources>
     <string name="app_name">Weeb</string>
-    <string name="fucking_weeb">Fucking weeb ಠ︵ಠ</string>
+    <string name="fucking_weeb" translatable="false">Fucking weeb ಠ︵ಠ</string>
     <string name="the_button">I\'m the button</string>
     <string name="see_the_truth">Tap the button to see the truth</string>
-    <string name="dark">Dark mode</string>
+    <string name="dark_mode">Dark mode</string>
     <string name="themeButton">Theme</string>
     <string name="themeText">Theme options</string>
+    <string name="light">Light</string>
+    <string name="dark">Dark</string>
+    <string name="sys_default">System default</string>
 </resources>
