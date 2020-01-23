@@ -4,4 +4,6 @@
     <string name="the_button">I\'m the button</string>
     <string name="see_the_truth">Tap the button to see the truth</string>
     <string name="dark">Dark mode</string>
+    <string name="themeButton">Theme</string>
+    <string name="themeText">Theme options</string>
 </resources>
