@@ -83,6 +83,8 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         });
+        // add Cancel button
+        builder.setNegativeButton(getString(R.string.cancel), null);
         // create and show the alert dialog
         AlertDialog dialog = builder.create();
         dialog.show();

@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Weeb</string>
+    <string name="app_name" translatable="false">Weeb</string>
     <string name="fucking_weeb" translatable="false">Fucking weeb ಠ︵ಠ</string>
     <string name="the_button">I\'m the button</string>
     <string name="see_the_truth">Tap the button to see the truth</string>
@@ -9,4 +9,6 @@
     <string name="light">Light</string>
     <string name="dark">Dark</string>
     <string name="sys_default">System default</string>
+    <string name="ok">Ok</string>
+    <string name="cancel">Cancel</string>
 </resources>

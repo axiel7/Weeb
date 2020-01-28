@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">Weeb</string>
     <string name="dark">Oscuro</string>
     <string name="see_the_truth">Pulsa el botón para ver la verdad</string>
     <string name="the_button">Soy el botón</string>
@@ -9,4 +8,6 @@
     <string name="light">Claro</string>
     <string name="sys_default">Predeterminado del sistema</string>
     <string name="dark_mode">Modo oscuro</string>
+    <string name="ok">Ok</string>
+    <string name="cancel">Cancelar</string>
 </resources>
