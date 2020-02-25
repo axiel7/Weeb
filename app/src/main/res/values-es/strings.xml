@@ -1,13 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="dark">Oscuro</string>
     <string name="see_the_truth">Pulsa el botón para ver la verdad</string>
     <string name="the_button">Soy el botón</string>
     <string name="themeButton">Tema</string>
     <string name="themeText">Opciones de tema</string>
-    <string name="light">Claro</string>
-    <string name="sys_default">Predeterminado del sistema</string>
     <string name="dark_mode">Modo oscuro</string>
-    <string name="ok">Ok</string>
+    <string name="ok">OK</string>
     <string name="cancel">Cancelar</string>
+    <string name="home">Inicio</string>
+    <string name="settings">Ajustes</string>
+    <string name="title_activity_settings">Ajustes</string>
+    <string name="pref_theme_label_dark">Oscuro</string>
+    <string name="pref_theme_label_default">Por defecto</string>
+    <string name="pref_theme_label_light">Claro</string>
 </resources>

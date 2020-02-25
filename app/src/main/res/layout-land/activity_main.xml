@@ -6,6 +6,13 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
+    <Button
+        android:id="@+id/theButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:text="@string/the_button" />
+
     <TextView
         android:id="@+id/theButtonText"
         android:layout_width="wrap_content"
@@ -16,14 +23,6 @@
         android:layout_marginTop="-50dp"
         android:text="@string/see_the_truth"
         android:textAlignment="center" />
-
-    <Button
-        android:id="@+id/theButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:text="@string/the_button"
-        tools:layout_marginBottom="50dp" />
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottom_navigation"

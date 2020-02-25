@@ -1,93 +1,110 @@
 package com.axiel7.weeb;
 
-import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
+import androidx.preference.PreferenceManager;
+
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import static androidx.appcompat.app.AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM;
 import static androidx.appcompat.app.AppCompatDelegate.MODE_NIGHT_NO;
 import static androidx.appcompat.app.AppCompatDelegate.MODE_NIGHT_YES;
 
 
-public class MainActivity extends AppCompatActivity {
-    SharedPref sharedpref;
+public class MainActivity extends AppCompatActivity implements SharedPreferences.OnSharedPreferenceChangeListener {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        sharedpref = new SharedPref(this);
-        if (sharedpref.loadNightModeState() == 2) {
-            AppCompatDelegate.setDefaultNightMode(MODE_NIGHT_YES);
-        }
-        if (sharedpref.loadNightModeState() == 1) {
-            AppCompatDelegate.setDefaultNightMode(MODE_NIGHT_NO);
-        }
-        if (sharedpref.loadNightModeState() == -1) {
-            AppCompatDelegate.setDefaultNightMode(MODE_NIGHT_FOLLOW_SYSTEM);
-        }
+        setTheme(R.style.AppTheme);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        Button theButton = findViewById(R.id.theButton);
-        theButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // Opens the gif activity:
-                Intent myIntent = new Intent(MainActivity.this, gif.class);
-                MainActivity.this.startActivity(myIntent);
+        //nav bar transparent
+        View view = getWindow().getDecorView();
+        view.setSystemUiVisibility(view.getSystemUiVisibility() | View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+                | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION);
+        setupSharedPreferences();
+        bottomNavMenu();
+        openGif();
+    }
+    private void bottomNavMenu() {
+        BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_navigation);
+        bottomNavigationView.setOnNavigationItemSelectedListener(item -> {
+            switch (item.getItemId()) {
+                case R.id.action_home:
+                    //Intent openHome = new Intent(MainActivity.this, SettingsActivity.class);
+                    //MainActivity.this.startActivity(openHome);
+                    break;
+                case R.id.action_settings:
+                    Intent openSettings = new Intent(MainActivity.this, SettingsActivity.class);
+                    MainActivity.this.startActivity(openSettings);
+                    break;
             }
-        });
-        Button themeButton = findViewById(R.id.themeButton);
-        themeButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                showAlertDialogButtonClicked(v);
-            }
+            return true;
         });
     }
-
-    public void showAlertDialogButtonClicked(final View view) {
-        // setup the alert builder
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle("");
-        // add a list
-        String[] themeOptions = {getString(R.string.light), getString(R.string.dark), getString(R.string.sys_default)};
-        int checkedItem = 2;
-        if (sharedpref.loadNightModeState() == 1) {
-            checkedItem = 0;
-        }
-        if (sharedpref.loadNightModeState() == 2) {
-            checkedItem = 1;
-        }
-        builder.setSingleChoiceItems(themeOptions, checkedItem, new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                switch (which) {
-                    case 0:
-                        AppCompatDelegate.setDefaultNightMode(MODE_NIGHT_NO); // 1
-                        sharedpref.setNightModeState(1);
-                        recreate();
-                        break;
-                    case 1:
-                        AppCompatDelegate.setDefaultNightMode(MODE_NIGHT_YES); // 2
-                        sharedpref.setNightModeState(2);
-                        recreate();
-                        break;
-                    case 2:
-                        AppCompatDelegate.setDefaultNightMode(MODE_NIGHT_FOLLOW_SYSTEM); // -1
-                        sharedpref.setNightModeState(-1);
-                        recreate();
-                }
-            }
+    private void openGif() {
+        Button theButton = findViewById(R.id.theButton);
+        theButton.setOnClickListener(v -> {
+            Intent openGif = new Intent(MainActivity.this, gif.class);
+            MainActivity.this.startActivity(openGif);
         });
-        // add Cancel button
-        builder.setNegativeButton(getString(R.string.cancel), null);
-        // create and show the alert dialog
-        AlertDialog dialog = builder.create();
-        dialog.show();
+    }
+    private void setupSharedPreferences() {
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+        sharedPreferences.registerOnSharedPreferenceChangeListener(this);
+        checkPreferences(sharedPreferences);
+    }
+    private void loadThemeFromPreference(SharedPreferences sharedPreferences) {
+        Log.d("axiel7",sharedPreferences.getString(getString(R.string.pref_theme_key),getString(R.string.pref_theme_default_value)));
+        changeTheme(sharedPreferences.getString(getString(R.string.pref_theme_key),getString(R.string.pref_theme_default_value)), sharedPreferences);
+    }
+    private void changeTheme(String pref_theme_value, SharedPreferences sharedPreferences) {
+        Log.d("axiel7", pref_theme_value);
+        if (pref_theme_value.equals("light")) {
+            AppCompatDelegate.setDefaultNightMode(MODE_NIGHT_NO);
+            sharedPreferences.edit().putString("theme", "light");
+            sharedPreferences.edit().commit();
+        }
+        if (pref_theme_value.equals("dark")) {
+            AppCompatDelegate.setDefaultNightMode(MODE_NIGHT_YES);
+            sharedPreferences.edit().putString("theme", "dark");
+            sharedPreferences.edit().commit();
+        }
+        if (pref_theme_value.equals("default")) {
+            AppCompatDelegate.setDefaultNightMode(MODE_NIGHT_FOLLOW_SYSTEM);
+            sharedPreferences.edit().putString("theme", "default");
+            sharedPreferences.edit().commit();
+        }
+    }
+    private void checkPreferences(SharedPreferences sharedPreferences) {
+        String themeValue = sharedPreferences.getString("theme","default");
+        if (themeValue.equals("light")) {
+            AppCompatDelegate.setDefaultNightMode(MODE_NIGHT_NO);
+        }
+        if (themeValue.equals("dark")) {
+            AppCompatDelegate.setDefaultNightMode(MODE_NIGHT_YES);
+        }
+        if (themeValue.equals("default")) {
+            AppCompatDelegate.setDefaultNightMode(MODE_NIGHT_FOLLOW_SYSTEM);
+        }
+    }
+    @Override
+    public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
+        if (key.equals("theme")) {
+            loadThemeFromPreference(sharedPreferences);
+        }
+    }
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        androidx.preference.PreferenceManager.getDefaultSharedPreferences(this)
+                .unregisterOnSharedPreferenceChangeListener(this);
     }
 }
 
