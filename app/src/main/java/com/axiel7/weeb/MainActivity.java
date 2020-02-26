@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 
@@ -32,7 +31,7 @@ public class MainActivity extends AppCompatActivity implements SharedPreferences
                 | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION);
         setupSharedPreferences();
         bottomNavMenu();
-        openGif();
+        gifButtom();
     }
     private void bottomNavMenu() {
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_navigation);
@@ -50,7 +49,7 @@ public class MainActivity extends AppCompatActivity implements SharedPreferences
             return true;
         });
     }
-    private void openGif() {
+    private void gifButtom() {
         Button theButton = findViewById(R.id.theButton);
         theButton.setOnClickListener(v -> {
             Intent openGif = new Intent(MainActivity.this, gif.class);
@@ -63,13 +62,11 @@ public class MainActivity extends AppCompatActivity implements SharedPreferences
         checkPreferences(sharedPreferences);
     }
     private void loadThemeFromPreference(SharedPreferences sharedPreferences) {
-        Log.d("axiel7",sharedPreferences.getString(getString(R.string.pref_theme_key),getString(R.string.pref_theme_default_value)));
         changeTheme(sharedPreferences.getString(getString(R.string.pref_theme_key),getString(R.string.pref_theme_default_value)), sharedPreferences);
     }
     private void changeTheme(String pref_theme_value, SharedPreferences sharedPreferences) {
         boolean systemDefault = Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q;
         SharedPreferences.Editor editor = sharedPreferences.edit();
-        Log.d("axiel7", pref_theme_value);
         if (pref_theme_value.equals("light")) {
             AppCompatDelegate.setDefaultNightMode(MODE_NIGHT_NO);
             editor.putString("theme", "light");
@@ -114,4 +111,3 @@ public class MainActivity extends AppCompatActivity implements SharedPreferences
                 .unregisterOnSharedPreferenceChangeListener(this);
     }
 }
-
