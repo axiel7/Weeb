@@ -2,6 +2,7 @@ package com.axiel7.weeb;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -13,6 +14,7 @@ import androidx.preference.PreferenceManager;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
+import static androidx.appcompat.app.AppCompatDelegate.MODE_NIGHT_AUTO_BATTERY;
 import static androidx.appcompat.app.AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM;
 import static androidx.appcompat.app.AppCompatDelegate.MODE_NIGHT_NO;
 import static androidx.appcompat.app.AppCompatDelegate.MODE_NIGHT_YES;
@@ -65,22 +67,27 @@ public class MainActivity extends AppCompatActivity implements SharedPreferences
         changeTheme(sharedPreferences.getString(getString(R.string.pref_theme_key),getString(R.string.pref_theme_default_value)), sharedPreferences);
     }
     private void changeTheme(String pref_theme_value, SharedPreferences sharedPreferences) {
+        boolean systemDefault = Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q;
+        SharedPreferences.Editor editor = sharedPreferences.edit();
         Log.d("axiel7", pref_theme_value);
         if (pref_theme_value.equals("light")) {
             AppCompatDelegate.setDefaultNightMode(MODE_NIGHT_NO);
-            sharedPreferences.edit().putString("theme", "light");
-            sharedPreferences.edit().commit();
+            editor.putString("theme", "light");
         }
         if (pref_theme_value.equals("dark")) {
             AppCompatDelegate.setDefaultNightMode(MODE_NIGHT_YES);
-            sharedPreferences.edit().putString("theme", "dark");
-            sharedPreferences.edit().commit();
+            editor.putString("theme", "dark");
         }
         if (pref_theme_value.equals("default")) {
-            AppCompatDelegate.setDefaultNightMode(MODE_NIGHT_FOLLOW_SYSTEM);
-            sharedPreferences.edit().putString("theme", "default");
-            sharedPreferences.edit().commit();
+            if (systemDefault) {
+                AppCompatDelegate.setDefaultNightMode(MODE_NIGHT_FOLLOW_SYSTEM);
+            }
+            else {
+                AppCompatDelegate.setDefaultNightMode(MODE_NIGHT_AUTO_BATTERY);
+            }
+            editor.putString("theme", "default");
         }
+        editor.apply();
     }
     private void checkPreferences(SharedPreferences sharedPreferences) {
         String themeValue = sharedPreferences.getString("theme","default");
